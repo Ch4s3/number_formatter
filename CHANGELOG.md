@@ -1,5 +1,54 @@
 # Changelog
 
+## [Unreleased](https://github.com/Ch4s3/number_formatter/compare/v1.0.5...HEAD)
+
+This fork is rebranded from `Number`/`:number` to `NumberFormatter`/`:number_formatter`.
+Everything below is relative to upstream [v1.0.5](https://github.com/danielberkompas/number/tree/v1.0.5).
+
+**Breaking changes:**
+
+- Renamed every module (`Number` -> `NumberFormatter`) and their backing files
+  (`lib/number(.ex|/)` -> `lib/number_formatter(.ex|/)`, same under `test/`).
+- Renamed the OTP application/config atom from `:number` to `:number_formatter`.
+  Existing `config :number, ...` must become `config :number_formatter, ...`.
+- Package renamed from `number` to `number_formatter`; repo moved to
+  [Ch4s3/number_formatter](https://github.com/Ch4s3/number_formatter).
+- Upgraded `decimal` to `~> 3.0`, dropping support for `~> 1.5`/`~> 2.0`.
+- Tightened the `elixir` version requirement from `~> 1.0` to `~> 1.16`, matching
+  what's actually tested in CI.
+
+**Added:**
+
+- Elixir 1.20 support, tested in CI alongside 1.16.
+- CI migrated from Semaphore to GitHub Actions.
+- Credo static analysis, run as part of `bin/test`.
+- Test coverage for the `use NumberFormatter` macro (previously untested).
+
+**Fixed:**
+
+- `Conversion.to_float/1` and `to_decimal/1` no longer silently truncate
+  malformed strings with a valid numeric prefix -- `to_decimal("123abc")`
+  used to return `Decimal.new(123)`; it now raises `ArgumentError`.
+- Fixed a `Decimal.Error` crash in `number_to_delimited/2` and
+  `number_to_currency/2` on float-derived strings with more than 28
+  significant digits (Decimal 3.x's default `max_digits`).
+- Fixed backreference corruption in `Currency.number_to_currency/2` and
+  `Phone.number_to_phone/2` when a `:unit` or `:delimiter` option contained a
+  literal backslash-digit sequence (e.g. `"\1"`), which was silently misread
+  as a regex capture-group reference.
+- Fixed Elixir 1.19+ deprecation warnings (`preferred_cli_env` -> `cli/0`,
+  single-quoted charlists -> `~c` sigil).
+
+**Changed:**
+
+- Removed the dead Decimal 1.x `compare/2` compatibility shim; call sites now
+  use `Decimal.compare/2` directly.
+- Simplified `Human.number_to_human/2` (cyclomatic complexity 11 -> a
+  data-driven scale list) and `Delimit.to_integer/1` (explicit try ->
+  idiomatic implicit try).
+- Extracted repeated config-loading boilerplate (5 modules) into
+  `NumberFormatter.Config.resolve/2`.
+
 ## [v1.0.5](https://github.com/danielberkompas/number/tree/v1.0.5) (2024-04-06)
 
 [Full Changelog](https://github.com/danielberkompas/number/compare/v1.0.4...v1.0.5)
