@@ -111,7 +111,7 @@ defmodule NumberFormatter.Currency do
   defp get_format(number, options) do
     number = if is_float(number), do: Decimal.from_float(number), else: Decimal.new(number)
 
-    case NumberFormatter.Decimal.compare(number, Decimal.new(0)) do
+    case Decimal.compare(number, Decimal.new(0)) do
       :lt -> {Decimal.abs(number), options[:negative_format] || "-#{options[:format]}"}
       _ -> {number, options[:format]}
     end

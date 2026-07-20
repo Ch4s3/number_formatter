@@ -4,7 +4,6 @@ defmodule NumberFormatter.Human do
   """
 
   import NumberFormatter.Delimit, only: [number_to_delimited: 2]
-  import NumberFormatter.Decimal, only: [compare: 2]
 
   @doc """
   Formats and labels a number with the appropriate English word.
@@ -62,21 +61,22 @@ defmodule NumberFormatter.Human do
 
   def number_to_human(number, options) do
     cond do
-      compare(number, ~d(999)) == :gt && compare(number, ~d(1_000_000)) == :lt ->
+      Decimal.compare(number, ~d(999)) == :gt && Decimal.compare(number, ~d(1_000_000)) == :lt ->
         delimit(number, ~d(1_000), "Thousand", options)
 
-      compare(number, ~d(1_000_000)) in [:gt, :eq] and compare(number, ~d(1_000_000_000)) == :lt ->
+      Decimal.compare(number, ~d(1_000_000)) in [:gt, :eq] and
+          Decimal.compare(number, ~d(1_000_000_000)) == :lt ->
         delimit(number, ~d(1_000_000), "Million", options)
 
-      compare(number, ~d(1_000_000_000)) in [:gt, :eq] and
-          compare(number, ~d(1_000_000_000_000)) == :lt ->
+      Decimal.compare(number, ~d(1_000_000_000)) in [:gt, :eq] and
+          Decimal.compare(number, ~d(1_000_000_000_000)) == :lt ->
         delimit(number, ~d(1_000_000_000), "Billion", options)
 
-      compare(number, ~d(1_000_000_000_000)) in [:gt, :eq] and
-          compare(number, ~d(1_000_000_000_000_000)) == :lt ->
+      Decimal.compare(number, ~d(1_000_000_000_000)) in [:gt, :eq] and
+          Decimal.compare(number, ~d(1_000_000_000_000_000)) == :lt ->
         delimit(number, ~d(1_000_000_000_000), "Trillion", options)
 
-      compare(number, ~d(1_000_000_000_000_000)) in [:gt, :eq] ->
+      Decimal.compare(number, ~d(1_000_000_000_000_000)) in [:gt, :eq] ->
         delimit(number, ~d(1_000_000_000_000_000), "Quadrillion", options)
 
       true ->
