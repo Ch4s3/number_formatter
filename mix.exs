@@ -38,6 +38,7 @@ defmodule NumberFormatter.Mixfile do
   defp deps do
     [
       {:decimal, "~> 3.0"},
+      {:credo, ">= 1.7.0", only: [:dev, :test], runtime: false},
       {:excoveralls, ">= 0.16.0", only: :test},
       {:ex_doc, ">= 0.0.0", only: [:dev, :test]},
       {:inch_ex, ">= 0.0.0", only: [:dev, :test]}

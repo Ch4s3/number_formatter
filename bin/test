@@ -4,6 +4,7 @@
 
 mix format --check-formatted || { echo 'Please format files using mix format'; exit 1; }
 mix compile --force --warnings-as-errors || { echo 'Please fix all compiler warnings'; exit 1; }
+mix credo --strict || { echo 'Please fix the credo issues above'; exit 1; }
 mix docs || { echo 'Docs did not generate!'; exit 1; }
 
 if [ $CI ]; then
