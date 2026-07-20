@@ -1,7 +1,7 @@
-defmodule Number.Decimal do
+defmodule NumberFormatter.Decimal do
   @moduledoc false
 
-  # Temporary shim that allow Number to work with <2.0 versions of Decimal.
+  # Temporary shim that allow NumberFormatter to work with <2.0 versions of Decimal.
   #
   # In Decimal 1.5, Decimal.compare/2 would return -1, 1, or 0 decimals.
   # In Decimal >=2.0, Decimal.compare/2 returns :lt, :gt, :eq.

@@ -1,9 +1,9 @@
-defmodule Number.Phone do
+defmodule NumberFormatter.Phone do
   @moduledoc """
   Provides functions to convert numbers into formatted phone number strings.
   """
 
-  import Number.Macros, only: [is_blank: 1]
+  import NumberFormatter.Macros, only: [is_blank: 1]
 
   @doc """
   Formats a number into a US phone number (e.g., (555) 123-9876). You can
@@ -26,10 +26,10 @@ defmodule Number.Phone do
 
   * `:country_code` - Sets the country code for the phone number.
 
-  Default config for these options can be specified in the `Number`
+  Default config for these options can be specified in the `NumberFormatter`
   application configuration.
 
-      config :number,
+      config :number_formatter,
         phone: [
           area_code: false,
           delimiter: "-",
@@ -39,40 +39,40 @@ defmodule Number.Phone do
 
   ## Examples
 
-      iex> Number.Phone.number_to_phone(nil)
+      iex> NumberFormatter.Phone.number_to_phone(nil)
       nil
 
-      iex> Number.Phone.number_to_phone(5551234)
+      iex> NumberFormatter.Phone.number_to_phone(5551234)
       "555-1234"
 
-      iex> Number.Phone.number_to_phone("5551234")
+      iex> NumberFormatter.Phone.number_to_phone("5551234")
       "555-1234"
 
-      iex> Number.Phone.number_to_phone(1235551234)
+      iex> NumberFormatter.Phone.number_to_phone(1235551234)
       "123-555-1234"
 
-      iex> Number.Phone.number_to_phone(1235551234, area_code: true)
+      iex> NumberFormatter.Phone.number_to_phone(1235551234, area_code: true)
       "(123) 555-1234"
 
-      iex> Number.Phone.number_to_phone(1235551234, delimiter: " ")
+      iex> NumberFormatter.Phone.number_to_phone(1235551234, delimiter: " ")
       "123 555 1234"
 
-      iex> Number.Phone.number_to_phone(1235551234, area_code: true, extension: 555)
+      iex> NumberFormatter.Phone.number_to_phone(1235551234, area_code: true, extension: 555)
       "(123) 555-1234 x 555"
 
-      iex> Number.Phone.number_to_phone(1235551234, area_code: true, extension: 555, country_code: 1)
+      iex> NumberFormatter.Phone.number_to_phone(1235551234, area_code: true, extension: 555, country_code: 1)
       "+1 (123) 555-1234 x 555"
 
-      iex> Number.Phone.number_to_phone(1235551234, country_code: 1)
+      iex> NumberFormatter.Phone.number_to_phone(1235551234, country_code: 1)
       "+1-123-555-1234"
 
-      iex> Number.Phone.number_to_phone("123a456")
+      iex> NumberFormatter.Phone.number_to_phone("123a456")
       "123a456"
 
-      iex> Number.Phone.number_to_phone(1235551234, country_code: 1, extension: 1343, delimiter: ".")
+      iex> NumberFormatter.Phone.number_to_phone(1235551234, country_code: 1, extension: 1343, delimiter: ".")
       "+1.123.555.1234 x 1343"
   """
-  @spec number_to_phone(Number.t() | String.t(), Keyword.t()) :: String.t()
+  @spec number_to_phone(NumberFormatter.t() | String.t(), Keyword.t()) :: String.t()
   def number_to_phone(number, options \\ [])
   def number_to_phone(nil, _options), do: nil
 
@@ -120,6 +120,6 @@ defmodule Number.Phone do
       country_code: nil
     ]
 
-    Keyword.merge(defaults, Application.get_env(:number, :phone, []))
+    Keyword.merge(defaults, Application.get_env(:number_formatter, :phone, []))
   end
 end

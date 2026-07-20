@@ -1,4 +1,4 @@
-defmodule Number.Macros do
+defmodule NumberFormatter.Macros do
   @moduledoc false
 
   @doc """
@@ -7,19 +7,19 @@ defmodule Number.Macros do
 
   ## Example
 
-      iex> Number.Macros.is_blank(" ")
+      iex> NumberFormatter.Macros.is_blank(" ")
       true
 
-      iex> Number.Macros.is_blank("")
+      iex> NumberFormatter.Macros.is_blank("")
       true
 
-      iex> Number.Macros.is_blank(nil)
+      iex> NumberFormatter.Macros.is_blank(nil)
       true
 
-      iex> Number.Macros.is_blank("hello world")
+      iex> NumberFormatter.Macros.is_blank("hello world")
       false
 
-      iex> Number.Macros.is_blank(123)
+      iex> NumberFormatter.Macros.is_blank(123)
       false
 
   This macro can also be used in guards:

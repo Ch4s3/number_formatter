@@ -1,6 +1,6 @@
-defmodule Number.ConversionTest do
+defmodule NumberFormatter.ConversionTest do
   use ExUnit.Case
-  import Number.Conversion
+  import NumberFormatter.Conversion
 
   describe ".to_float/1" do
     test "raises error on invalid bitstring" do
@@ -24,7 +24,7 @@ defmodule Number.ConversionTest do
     test "cannot natively handle any other types" do
       assert_raise Protocol.UndefinedError, fn ->
         # Use :erlang.apply/3 to bypass the compile-time type checker
-        :erlang.apply(Number.Conversion, :to_float, [%{hello: "world"}])
+        :erlang.apply(NumberFormatter.Conversion, :to_float, [%{hello: "world"}])
       end
     end
   end

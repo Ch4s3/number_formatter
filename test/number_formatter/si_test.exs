@@ -1,8 +1,8 @@
-defmodule Number.SITest do
+defmodule NumberFormatter.SITest do
   use ExUnit.Case
-  alias Number.SI
+  alias NumberFormatter.SI
 
-  doctest Number.SI
+  doctest NumberFormatter.SI
 
   test "SI.number_to_si" do
     assert SI.number_to_si(1337.0e-16) == "133.70f"

@@ -1,4 +1,4 @@
-defmodule Number.Delimit do
+defmodule NumberFormatter.Delimit do
   @moduledoc """
   Provides functions to delimit numbers into strings.
   """
@@ -23,10 +23,10 @@ defmodule Number.Delimit do
   * `:separator` - The character to use to separate the number from the decimal
     places. Default: "."
 
-  Default configuration for these options can be specified in the `Number`
+  Default configuration for these options can be specified in the `NumberFormatter`
   application configuration.
 
-      config :number,
+      config :number_formatter,
         delimit: [
           precision: 3,
           delimiter: ",",
@@ -35,55 +35,55 @@ defmodule Number.Delimit do
 
   ## Examples
 
-      iex> Number.Delimit.number_to_delimited(nil)
+      iex> NumberFormatter.Delimit.number_to_delimited(nil)
       nil
 
-      iex> Number.Delimit.number_to_delimited(998.999)
+      iex> NumberFormatter.Delimit.number_to_delimited(998.999)
       "999.00"
 
-      iex> Number.Delimit.number_to_delimited(-234234.234)
+      iex> NumberFormatter.Delimit.number_to_delimited(-234234.234)
       "-234,234.23"
 
-      iex> Number.Delimit.number_to_delimited("998.999")
+      iex> NumberFormatter.Delimit.number_to_delimited("998.999")
       "999.00"
 
-      iex> Number.Delimit.number_to_delimited("-234234.234")
+      iex> NumberFormatter.Delimit.number_to_delimited("-234234.234")
       "-234,234.23"
 
-      iex> Number.Delimit.number_to_delimited(12345678)
+      iex> NumberFormatter.Delimit.number_to_delimited(12345678)
       "12,345,678.00"
 
-      iex> Number.Delimit.number_to_delimited(12345678.05)
+      iex> NumberFormatter.Delimit.number_to_delimited(12345678.05)
       "12,345,678.05"
 
-      iex> Number.Delimit.number_to_delimited(12345678, delimiter: ".")
+      iex> NumberFormatter.Delimit.number_to_delimited(12345678, delimiter: ".")
       "12.345.678.00"
 
-      iex> Number.Delimit.number_to_delimited(12345678, delimiter: ",")
+      iex> NumberFormatter.Delimit.number_to_delimited(12345678, delimiter: ",")
       "12,345,678.00"
 
-      iex> Number.Delimit.number_to_delimited(12345678.05, separator: " ")
+      iex> NumberFormatter.Delimit.number_to_delimited(12345678.05, separator: " ")
       "12,345,678 05"
 
-      iex> Number.Delimit.number_to_delimited(98765432.98, delimiter: " ", separator: ",")
+      iex> NumberFormatter.Delimit.number_to_delimited(98765432.98, delimiter: " ", separator: ",")
       "98 765 432,98"
 
-      iex> Number.Delimit.number_to_delimited(Decimal.from_float(9998.2))
+      iex> NumberFormatter.Delimit.number_to_delimited(Decimal.from_float(9998.2))
       "9,998.20"
 
-      iex> Number.Delimit.number_to_delimited "123456789555555555555555555555555"
+      iex> NumberFormatter.Delimit.number_to_delimited "123456789555555555555555555555555"
       "123,456,789,555,555,555,555,555,555,555,555.00"
 
-      iex> Number.Delimit.number_to_delimited Decimal.new("123456789555555555555555555555555")
+      iex> NumberFormatter.Delimit.number_to_delimited Decimal.new("123456789555555555555555555555555")
       "123,456,789,555,555,555,555,555,555,555,555.00"
   """
   @spec number_to_delimited(nil, Keyword.t()) :: nil
-  @spec number_to_delimited(Number.t() | String.t(), Keyword.t()) :: String.t()
+  @spec number_to_delimited(NumberFormatter.t() | String.t(), Keyword.t()) :: String.t()
   def number_to_delimited(number, options \\ [])
   def number_to_delimited(nil, _options), do: nil
 
   def number_to_delimited(number, options) do
-    float = number |> Number.Conversion.to_float()
+    float = number |> NumberFormatter.Conversion.to_float()
     options = Keyword.merge(config(), options)
     prefix = if float < 0, do: "-", else: ""
 
@@ -102,7 +102,7 @@ defmodule Number.Delimit do
         {:error, other} ->
           other
           |> to_string
-          |> Number.Conversion.to_decimal()
+          |> NumberFormatter.Conversion.to_decimal()
           |> delimit_decimal(options[:delimiter], options[:separator], options[:precision])
       end
 
@@ -182,6 +182,6 @@ defmodule Number.Delimit do
       precision: 2
     ]
 
-    Keyword.merge(defaults, Application.get_env(:number, :delimit, []))
+    Keyword.merge(defaults, Application.get_env(:number_formatter, :delimit, []))
   end
 end

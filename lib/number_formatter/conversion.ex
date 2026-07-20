@@ -1,5 +1,5 @@
-defprotocol Number.Conversion do
-  @moduledoc "Converts values to formats consumable by Number."
+defprotocol NumberFormatter.Conversion do
+  @moduledoc "Converts values to formats consumable by NumberFormatter."
   @fallback_to_any false
 
   @doc "Converts a value to a Float."
@@ -9,7 +9,7 @@ defprotocol Number.Conversion do
   def to_decimal(value)
 end
 
-defimpl Number.Conversion, for: BitString do
+defimpl NumberFormatter.Conversion, for: BitString do
   @moduledoc false
 
   def to_float(value) do
@@ -30,7 +30,7 @@ defimpl Number.Conversion, for: BitString do
   end
 end
 
-defimpl Number.Conversion, for: Float do
+defimpl NumberFormatter.Conversion, for: Float do
   @moduledoc false
 
   def to_float(value), do: value
@@ -40,7 +40,7 @@ defimpl Number.Conversion, for: Float do
   end
 end
 
-defimpl Number.Conversion, for: Integer do
+defimpl NumberFormatter.Conversion, for: Integer do
   @moduledoc false
 
   def to_float(value), do: value * 1.0
@@ -50,7 +50,7 @@ defimpl Number.Conversion, for: Integer do
   end
 end
 
-defimpl Number.Conversion, for: Decimal do
+defimpl NumberFormatter.Conversion, for: Decimal do
   @moduledoc false
 
   def to_float(value) do

@@ -1,62 +1,62 @@
-defmodule Number.Human do
+defmodule NumberFormatter.Human do
   @moduledoc """
   Provides functions for converting numbers into more human readable strings.
   """
 
-  import Number.Delimit, only: [number_to_delimited: 2]
-  import Number.Decimal, only: [compare: 2]
+  import NumberFormatter.Delimit, only: [number_to_delimited: 2]
+  import NumberFormatter.Decimal, only: [compare: 2]
 
   @doc """
   Formats and labels a number with the appropriate English word.
 
   ## Examples
 
-      iex> Number.Human.number_to_human(nil)
+      iex> NumberFormatter.Human.number_to_human(nil)
       nil
 
-      iex> Number.Human.number_to_human(123)
+      iex> NumberFormatter.Human.number_to_human(123)
       "123.00"
 
-      iex> Number.Human.number_to_human(1234)
+      iex> NumberFormatter.Human.number_to_human(1234)
       "1.23 Thousand"
 
-      iex> Number.Human.number_to_human(999001)
+      iex> NumberFormatter.Human.number_to_human(999001)
       "999.00 Thousand"
 
-      iex> Number.Human.number_to_human(1234567)
+      iex> NumberFormatter.Human.number_to_human(1234567)
       "1.23 Million"
 
-      iex> Number.Human.number_to_human(1234567890)
+      iex> NumberFormatter.Human.number_to_human(1234567890)
       "1.23 Billion"
 
-      iex> Number.Human.number_to_human(1234567890123)
+      iex> NumberFormatter.Human.number_to_human(1234567890123)
       "1.23 Trillion"
 
-      iex> Number.Human.number_to_human(1234567890123456)
+      iex> NumberFormatter.Human.number_to_human(1234567890123456)
       "1.23 Quadrillion"
 
-      iex> Number.Human.number_to_human(1234567890123456789)
+      iex> NumberFormatter.Human.number_to_human(1234567890123456789)
       "1,234.57 Quadrillion"
 
-      iex> Number.Human.number_to_human(Decimal.new("5000.0"))
+      iex> NumberFormatter.Human.number_to_human(Decimal.new("5000.0"))
       "5.00 Thousand"
 
-      iex> Number.Human.number_to_human(~c"charlist")
-      ** (ArgumentError) number must be a float, integer or implement `Number.Conversion` protocol, was ~c"charlist"
+      iex> NumberFormatter.Human.number_to_human(~c"charlist")
+      ** (ArgumentError) number must be a float, integer or implement `NumberFormatter.Conversion` protocol, was ~c"charlist"
 
   """
-  @spec number_to_human(Number.t(), Keyword.t()) :: String.t()
+  @spec number_to_human(NumberFormatter.t(), Keyword.t()) :: String.t()
   def number_to_human(number, options \\ [])
   def number_to_human(nil, _options), do: nil
 
   def number_to_human(number, options) when not is_map(number) do
-    if Number.Conversion.impl_for(number) do
+    if NumberFormatter.Conversion.impl_for(number) do
       number
-      |> Number.Conversion.to_decimal()
+      |> NumberFormatter.Conversion.to_decimal()
       |> number_to_human(options)
     else
       raise ArgumentError,
-            "number must be a float, integer or implement `Number.Conversion` protocol, was #{inspect(number)}"
+            "number must be a float, integer or implement `NumberFormatter.Conversion` protocol, was #{inspect(number)}"
     end
   end
 
@@ -88,23 +88,23 @@ defmodule Number.Human do
   Adds ordinal suffix (st, nd, rd or th) for the number
   ## Examples
 
-      iex> Number.Human.number_to_ordinal(3)
+      iex> NumberFormatter.Human.number_to_ordinal(3)
       "3rd"
 
-      iex> Number.Human.number_to_ordinal(1)
+      iex> NumberFormatter.Human.number_to_ordinal(1)
       "1st"
 
-      iex> Number.Human.number_to_ordinal(46)
+      iex> NumberFormatter.Human.number_to_ordinal(46)
       "46th"
 
-      iex> Number.Human.number_to_ordinal(442)
+      iex> NumberFormatter.Human.number_to_ordinal(442)
       "442nd"
 
-      iex> Number.Human.number_to_ordinal(4001)
+      iex> NumberFormatter.Human.number_to_ordinal(4001)
       "4001st"
 
   """
-  @spec number_to_ordinal(Number.t()) :: String.t()
+  @spec number_to_ordinal(NumberFormatter.t()) :: String.t()
   def number_to_ordinal(number) when is_integer(number) do
     sfx = ~w(th st nd rd th th th th th th)
 

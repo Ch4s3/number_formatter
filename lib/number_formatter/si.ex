@@ -1,4 +1,4 @@
-defmodule Number.SI do
+defmodule NumberFormatter.SI do
   @moduledoc """
   Provides functions for formatting numbers using SI notation.
   """
@@ -45,7 +45,7 @@ defmodule Number.SI do
   ## Parameters
 
   * `number` - A value to convert. Can be any value that implements
-    `Number.Conversion.to_float/1`.
+    `NumberFormatter.Conversion.to_float/1`.
 
   * `options` - A keyword list of options. See the documentation below for all
     available options.
@@ -63,10 +63,10 @@ defmodule Number.SI do
 
   * `:trim` - Trim trailing zeros. Default: false
 
-  Default configuration for these options can be specified in the `Number`
+  Default configuration for these options can be specified in the `NumberFormatter`
   application configuration.
 
-      config :number,
+      config :number_formatter,
         si: [
           separator: " ",
           precision: 4,
@@ -74,31 +74,31 @@ defmodule Number.SI do
         ]
 
   ## Examples
-      iex> Number.SI.number_to_si(nil)
+      iex> NumberFormatter.SI.number_to_si(nil)
       nil
 
-      iex> Number.SI.number_to_si(1210000000, unit: "W")
+      iex> NumberFormatter.SI.number_to_si(1210000000, unit: "W")
       "1.21GW"
 
-      iex> Number.SI.number_to_si(1210000000, unit: "W", precision: 1)
+      iex> NumberFormatter.SI.number_to_si(1210000000, unit: "W", precision: 1)
       "1.2GW"
 
-      iex> Number.SI.number_to_si(1210000000, unit: "W", precision: 3, separator: " ")
+      iex> NumberFormatter.SI.number_to_si(1210000000, unit: "W", precision: 3, separator: " ")
       "1.210 GW"
 
-      iex> Number.SI.number_to_si(1210000000, unit: "W", precision: 5, trim: true)
+      iex> NumberFormatter.SI.number_to_si(1210000000, unit: "W", precision: 5, trim: true)
       "1.21GW"
 
-      iex> Number.SI.number_to_si(1210000000)
+      iex> NumberFormatter.SI.number_to_si(1210000000)
       "1.21G"
 
-      iex> Number.SI.number_to_si(Decimal.new(1210000000))
+      iex> NumberFormatter.SI.number_to_si(Decimal.new(1210000000))
       "1.21G"
 
-      iex> Number.SI.number_to_si(~c"charlist")
-      ** (ArgumentError) number must be a float, integer or implement `Number.Conversion` protocol, was ~c"charlist"
+      iex> NumberFormatter.SI.number_to_si(~c"charlist")
+      ** (ArgumentError) number must be a float, integer or implement `NumberFormatter.Conversion` protocol, was ~c"charlist"
   """
-  @spec number_to_si(Number.t(), Keyword.t()) :: String.t()
+  @spec number_to_si(NumberFormatter.t(), Keyword.t()) :: String.t()
   def number_to_si(number, options \\ [])
   def number_to_si(nil, _options), do: nil
 
@@ -113,13 +113,13 @@ defmodule Number.SI do
   end
 
   def number_to_si(number, options) do
-    if Number.Conversion.impl_for(number) do
+    if NumberFormatter.Conversion.impl_for(number) do
       number
-      |> Number.Conversion.to_float()
+      |> NumberFormatter.Conversion.to_float()
       |> number_to_si(options)
     else
       raise ArgumentError,
-            "number must be a float, integer or implement `Number.Conversion` protocol, was #{inspect(number)}"
+            "number must be a float, integer or implement `NumberFormatter.Conversion` protocol, was #{inspect(number)}"
     end
   end
 
@@ -156,6 +156,6 @@ defmodule Number.SI do
       precision: 2
     ]
 
-    Keyword.merge(defaults, Application.get_env(:number, :si, []))
+    Keyword.merge(defaults, Application.get_env(:number_formatter, :si, []))
   end
 end
