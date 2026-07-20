@@ -48,18 +48,7 @@ defmodule NumberFormatter.Human do
   def number_to_human(number, options \\ [])
   def number_to_human(nil, _options), do: nil
 
-  def number_to_human(number, options) when not is_map(number) do
-    if NumberFormatter.Conversion.impl_for(number) do
-      number
-      |> NumberFormatter.Conversion.to_decimal()
-      |> number_to_human(options)
-    else
-      raise ArgumentError,
-            "number must be a float, integer or implement `NumberFormatter.Conversion` protocol, was #{inspect(number)}"
-    end
-  end
-
-  def number_to_human(number, options) do
+  def number_to_human(%Decimal{} = number, options) do
     cond do
       Decimal.compare(number, ~d(999)) == :gt && Decimal.compare(number, ~d(1_000_000)) == :lt ->
         delimit(number, ~d(1_000), "Thousand", options)
@@ -81,6 +70,17 @@ defmodule NumberFormatter.Human do
 
       true ->
         number_to_delimited(number, options)
+    end
+  end
+
+  def number_to_human(number, options) do
+    if NumberFormatter.Conversion.impl_for(number) do
+      number
+      |> NumberFormatter.Conversion.to_decimal()
+      |> number_to_human(options)
+    else
+      raise ArgumentError,
+            "number must be a float, integer or implement `NumberFormatter.Conversion` protocol, was #{inspect(number)}"
     end
   end
 
