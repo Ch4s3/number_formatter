@@ -14,8 +14,8 @@ defimpl NumberFormatter.Conversion, for: BitString do
 
   def to_float(value) do
     case Float.parse(value) do
-      {float, _} -> float
-      :error -> raise ArgumentError, "could not convert #{inspect(value)} to float"
+      {float, ""} -> float
+      _ -> raise ArgumentError, "could not convert #{inspect(value)} to float"
     end
   end
 
@@ -24,8 +24,7 @@ defimpl NumberFormatter.Conversion, for: BitString do
 
     case Decimal.parse(string, max_digits: 100) do
       {decimal, ""} -> decimal
-      {decimal, _rest} -> decimal
-      :error -> raise ArgumentError, "could not convert #{inspect(value)} to Decimal"
+      _ -> raise ArgumentError, "could not convert #{inspect(value)} to Decimal"
     end
   end
 end

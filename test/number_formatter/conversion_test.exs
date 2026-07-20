@@ -13,6 +13,12 @@ defmodule NumberFormatter.ConversionTest do
       assert 10.0 == to_float("10.00")
     end
 
+    test "raises instead of silently truncating trailing garbage" do
+      assert_raise ArgumentError, fn ->
+        to_float("123abc")
+      end
+    end
+
     test "converts an integer to a float" do
       assert 10.0 == to_float(10)
     end
@@ -46,6 +52,12 @@ defmodule NumberFormatter.ConversionTest do
     test "raises on invalid string" do
       assert_raise ArgumentError, fn ->
         to_decimal("not_a_number")
+      end
+    end
+
+    test "raises instead of silently truncating trailing garbage" do
+      assert_raise ArgumentError, fn ->
+        to_decimal("123abc")
       end
     end
   end
