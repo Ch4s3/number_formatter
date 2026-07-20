@@ -1,12 +1,12 @@
-defmodule Number.Mixfile do
+defmodule NumberFormatter.Mixfile do
   use Mix.Project
 
-  @source_url "https://github.com/danielberkompas/number"
+  @source_url "https://github.com/Ch4s3/number_formatter"
   @version "1.0.5"
 
   def project do
     [
-      app: :number,
+      app: :number_formatter,
       description: "Convert numbers to various string formats, such as currency",
       version: @version,
       elixir: "~> 1.0",
@@ -59,7 +59,7 @@ defmodule Number.Mixfile do
       maintainers: ["Daniel Berkompas"],
       licenses: ["MIT"],
       links: %{
-        "Changelog" => "https://hexdocs.pm/number/changelog.html",
+        "Changelog" => "https://hexdocs.pm/number_formatter/changelog.html",
         "GitHub" => @source_url
       }
     ]

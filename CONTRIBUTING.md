@@ -1,7 +1,7 @@
 Contributing
 ====================
 
-Contributions to `Number` are welcome! I'm particularly interested in
+Contributions to `NumberFormatter` are welcome! I'm particularly interested in
 contributions that implement further parts of `ActionView::Helpers::NumberHelper`'s
 API.
 
