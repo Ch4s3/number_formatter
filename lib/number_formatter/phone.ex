@@ -3,7 +3,7 @@ defmodule NumberFormatter.Phone do
   Provides functions to convert numbers into formatted phone number strings.
   """
 
-  import NumberFormatter.Macros, only: [is_blank: 1]
+  defguardp is_blank(value) when value in [" ", "", nil]
 
   @doc """
   Formats a number into a US phone number (e.g., (555) 123-9876). You can
