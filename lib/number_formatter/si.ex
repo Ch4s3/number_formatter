@@ -149,13 +149,6 @@ defmodule NumberFormatter.SI do
   end
 
   defp config do
-    defaults = [
-      base: 1000,
-      separator: "",
-      unit: "",
-      precision: 2
-    ]
-
-    Keyword.merge(defaults, Application.get_env(:number_formatter, :si, []))
+    NumberFormatter.Config.resolve(:si, base: 1000, separator: "", unit: "", precision: 2)
   end
 end

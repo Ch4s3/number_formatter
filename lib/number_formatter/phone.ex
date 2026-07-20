@@ -121,13 +121,11 @@ defmodule NumberFormatter.Phone do
   end
 
   defp config do
-    defaults = [
+    NumberFormatter.Config.resolve(:phone,
       area_code: false,
       delimiter: "-",
       extension: nil,
       country_code: nil
-    ]
-
-    Keyword.merge(defaults, Application.get_env(:number_formatter, :phone, []))
+    )
   end
 end

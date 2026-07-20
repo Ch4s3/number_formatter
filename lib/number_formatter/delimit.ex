@@ -176,12 +176,6 @@ defmodule NumberFormatter.Delimit do
   end
 
   defp config do
-    defaults = [
-      delimiter: ",",
-      separator: ".",
-      precision: 2
-    ]
-
-    Keyword.merge(defaults, Application.get_env(:number_formatter, :delimit, []))
+    NumberFormatter.Config.resolve(:delimit, delimiter: ",", separator: ".", precision: 2)
   end
 end

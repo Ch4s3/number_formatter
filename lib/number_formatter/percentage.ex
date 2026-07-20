@@ -70,12 +70,6 @@ defmodule NumberFormatter.Percentage do
   end
 
   defp config do
-    defaults = [
-      delimiter: ",",
-      separator: ".",
-      precision: 3
-    ]
-
-    Keyword.merge(defaults, Application.get_env(:number_formatter, :percentage, []))
+    NumberFormatter.Config.resolve(:percentage, delimiter: ",", separator: ".", precision: 3)
   end
 end

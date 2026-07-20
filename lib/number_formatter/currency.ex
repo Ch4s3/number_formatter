@@ -126,14 +126,12 @@ defmodule NumberFormatter.Currency do
   end
 
   defp config do
-    defaults = [
+    NumberFormatter.Config.resolve(:currency,
       delimiter: ",",
       separator: ".",
       precision: 2,
       unit: "$",
       format: "%u%n"
-    ]
-
-    Keyword.merge(defaults, Application.get_env(:number_formatter, :currency, []))
+    )
   end
 end
