@@ -9,7 +9,7 @@ defmodule NumberFormatter.Mixfile do
       app: :number_formatter,
       description: "Convert numbers to various string formats, such as currency",
       version: @version,
-      elixir: "~> 1.0",
+      elixir: "~> 1.16",
       build_embedded: Mix.env() == :prod,
       start_permanent: Mix.env() == :prod,
       test_coverage: [tool: ExCoveralls],
