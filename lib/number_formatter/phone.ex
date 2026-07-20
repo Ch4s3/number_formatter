@@ -86,16 +86,24 @@ defmodule NumberFormatter.Phone do
     |> append_extension(options[:extension])
   end
 
+  # Regex.replace/3 with a function callback is used instead of a replacement
+  # string so a delimiter containing a literal backslash-digit sequence (e.g.
+  # "\\1") can't be misread as a backreference by String.replace/3.
   defp delimit_number(number, delimiter, area_code) when area_code == false do
     {:ok, leading_delimiter} = "^#{Regex.escape(delimiter)}" |> Regex.compile()
 
-    number
-    |> String.replace(~r/(\d{0,3})(\d{3})(\d{4})$/, "\\1#{delimiter}\\2#{delimiter}\\3")
-    |> String.replace(leading_delimiter, "")
+    delimited =
+      Regex.replace(~r/(\d{0,3})(\d{3})(\d{4})$/, number, fn _, a, b, c ->
+        a <> delimiter <> b <> delimiter <> c
+      end)
+
+    String.replace(delimited, leading_delimiter, "")
   end
 
   defp delimit_number(number, delimiter, area_code) when area_code == true do
-    String.replace(number, ~r/(\d{1,3})(\d{3})(\d{4}$)/, "(\\1) \\2#{delimiter}\\3")
+    Regex.replace(~r/(\d{1,3})(\d{3})(\d{4}$)/, number, fn _, a, b, c ->
+      "(" <> a <> ") " <> b <> delimiter <> c
+    end)
   end
 
   defp prepend_country_code(number, country_code, _, _) when is_blank(country_code), do: number

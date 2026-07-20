@@ -104,8 +104,16 @@ defmodule NumberFormatter.Currency do
     number = number_to_delimited(number, options)
 
     format
-    |> String.replace(~r/%u/, options[:unit])
-    |> String.replace(~r/%n/, number)
+    |> replace_literal(~r/%u/, options[:unit])
+    |> replace_literal(~r/%n/, number)
+  end
+
+  # String.replace/3 treats \N in the replacement as a backreference, so a
+  # unit or number containing a literal backslash-digit sequence would be
+  # silently mangled. Regex.replace/3 with a function callback inserts the
+  # replacement literally, with no backreference reinterpretation.
+  defp replace_literal(string, regex, replacement) do
+    Regex.replace(regex, string, fn _ -> replacement end)
   end
 
   defp get_format(number, options) do
