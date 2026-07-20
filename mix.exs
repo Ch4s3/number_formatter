@@ -2,7 +2,7 @@ defmodule NumberFormatter.Mixfile do
   use Mix.Project
 
   @source_url "https://github.com/Ch4s3/number_formatter"
-  @version "1.0.5"
+  @version "1.0.0"
 
   def project do
     [

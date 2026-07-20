@@ -39,7 +39,7 @@ Get it from Hex:
 
 ```elixir
 defp deps do
-  [{:number_formatter, "~> 1.0.5"}]
+  [{:number_formatter, "~> 1.0"}]
 end
 ```
 

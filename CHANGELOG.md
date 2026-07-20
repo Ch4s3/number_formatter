@@ -1,9 +1,11 @@
 # Changelog
 
-## [Unreleased](https://github.com/Ch4s3/number_formatter/compare/v1.0.5...HEAD)
+## [v1.0.0](https://github.com/Ch4s3/number_formatter/releases/tag/v1.0.0) (2026-07-20)
 
-This fork is rebranded from `Number`/`:number` to `NumberFormatter`/`:number_formatter`.
-Everything below is relative to upstream [v1.0.5](https://github.com/danielberkompas/number/tree/v1.0.5).
+This fork is rebranded from `Number`/`:number` to `NumberFormatter`/`:number_formatter`,
+published as a new Hex package (`number_formatter`), so versioning restarts at 1.0.0
+rather than continuing upstream's 1.0.x line. Everything below is relative to
+upstream [v1.0.5](https://github.com/danielberkompas/number/tree/v1.0.5).
 
 **Breaking changes:**
 
