@@ -1,6 +1,6 @@
 # Number
 
-[![Build Status](https://danielberkompas.semaphoreci.com/badges/number/branches/master.svg?style=shields)](https://danielberkompas.semaphoreci.com/projects/number)
+[![Build Status](https://github.com/Ch4s3/number_formatter/actions/workflows/ci.yml/badge.svg)](https://github.com/Ch4s3/number_formatter/actions/workflows/ci.yml)
 [![Inline docs](http://inch-ci.org/github/danielberkompas/number.svg?branch=master)](http://inch-ci.org/github/danielberkompas/number)
 [![Coverage Status](https://coveralls.io/repos/github/danielberkompas/number/badge.svg?branch=master)](https://coveralls.io/github/danielberkompas/number?branch=master)
 [![Module Version](https://img.shields.io/hexpm/v/number.svg)](https://hex.pm/packages/number)

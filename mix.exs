@@ -26,7 +26,7 @@ defmodule Number.Mixfile do
         "coveralls.detail": :test,
         "coveralls.post": :test,
         "coveralls.html": :test,
-        "coveralls.travis": :test
+        "coveralls.github": :test
       ]
     ]
   end
