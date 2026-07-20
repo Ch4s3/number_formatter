@@ -114,22 +114,16 @@ defmodule NumberFormatter.Delimit do
     {:ok, integer}
   end
 
-  defp to_integer(%{__struct__: Decimal} = decimal) do
-    try do
-      {:ok, Decimal.to_integer(decimal)}
-    rescue
-      _ ->
-        {:error, decimal}
-    end
+  defp to_integer(%Decimal{} = decimal) do
+    {:ok, Decimal.to_integer(decimal)}
+  rescue
+    _ -> {:error, decimal}
   end
 
   defp to_integer(string) when is_binary(string) do
-    try do
-      {:ok, String.to_integer(string)}
-    rescue
-      _ ->
-        {:error, string}
-    end
+    {:ok, String.to_integer(string)}
+  rescue
+    _ -> {:error, string}
   end
 
   defp to_integer(other) do

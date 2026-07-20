@@ -48,28 +48,21 @@ defmodule NumberFormatter.Human do
   def number_to_human(number, options \\ [])
   def number_to_human(nil, _options), do: nil
 
+  # Descending order matters: the first scale that `number` is at least as
+  # large as wins. Below the smallest scale (1_000), the number is left as a
+  # plain delimited value with no label.
+  @scales [
+    {1_000_000_000_000_000, "Quadrillion"},
+    {1_000_000_000_000, "Trillion"},
+    {1_000_000_000, "Billion"},
+    {1_000_000, "Million"},
+    {1_000, "Thousand"}
+  ]
+
   def number_to_human(%Decimal{} = number, options) do
-    cond do
-      Decimal.compare(number, ~d(999)) == :gt && Decimal.compare(number, ~d(1_000_000)) == :lt ->
-        delimit(number, ~d(1_000), "Thousand", options)
-
-      Decimal.compare(number, ~d(1_000_000)) in [:gt, :eq] and
-          Decimal.compare(number, ~d(1_000_000_000)) == :lt ->
-        delimit(number, ~d(1_000_000), "Million", options)
-
-      Decimal.compare(number, ~d(1_000_000_000)) in [:gt, :eq] and
-          Decimal.compare(number, ~d(1_000_000_000_000)) == :lt ->
-        delimit(number, ~d(1_000_000_000), "Billion", options)
-
-      Decimal.compare(number, ~d(1_000_000_000_000)) in [:gt, :eq] and
-          Decimal.compare(number, ~d(1_000_000_000_000_000)) == :lt ->
-        delimit(number, ~d(1_000_000_000_000), "Trillion", options)
-
-      Decimal.compare(number, ~d(1_000_000_000_000_000)) in [:gt, :eq] ->
-        delimit(number, ~d(1_000_000_000_000_000), "Quadrillion", options)
-
-      true ->
-        number_to_delimited(number, options)
+    case Enum.find(@scales, fn {threshold, _label} -> at_least?(number, threshold) end) do
+      {threshold, label} -> delimit(number, Decimal.new(threshold), label, options)
+      nil -> number_to_delimited(number, options)
     end
   end
 
@@ -117,11 +110,8 @@ defmodule NumberFormatter.Human do
       end
   end
 
-  defp sigil_d(number, _modifiers) do
-    number
-    |> String.replace("_", "")
-    |> String.to_integer()
-    |> Decimal.new()
+  defp at_least?(number, threshold) do
+    Decimal.compare(number, Decimal.new(threshold)) in [:gt, :eq]
   end
 
   defp delimit(number, divisor, label, options) do
